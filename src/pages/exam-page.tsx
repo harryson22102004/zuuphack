@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 import { cn } from "@/lib/utils"
+import { toast } from "sonner"
 
 const MOCK_LOGS = [
   "[System] Analyzing inter-key latency...",
@@ -17,7 +18,7 @@ const ALERT_LOGS = [
   "[CRITICAL] Initiating lockdown protocols...",
 ]
 
-export function ExamPage() {
+export function ExamPage({ onBack }: { onBack?: () => void }) {
   const [isAlert, setIsAlert] = useState(false)
   const [wordCount, setWordCount] = useState(34)
   const [trustScore, setTrustScore] = useState("98.4")
@@ -129,27 +130,60 @@ export function ExamPage() {
     >
       {/* TopAppBar */}
       <nav className="bg-kp-surface/5 fixed top-0 w-full backdrop-blur-xl border-b border-white/10 shadow-sm flex justify-between items-center px-kp-margin-desktop h-16 z-50 transition-colors">
-        <div className="font-kp-inter text-[32px] leading-[40px] tracking-[-0.01em] font-bold text-kp-primary tracking-tighter">
-          KinetiPass
+        <div className="flex items-center gap-4">
+          {onBack && (
+            <button
+              onClick={onBack}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 hover:text-kp-primary transition-all duration-150 active:scale-95 text-xs font-semibold text-kp-on-surface"
+            >
+              <span className="material-symbols-outlined text-[16px] leading-[16px]">arrow_back</span>
+              <span>Exit Simulator</span>
+            </button>
+          )}
+          <div
+            onClick={onBack}
+            className={cn(
+              "font-kp-inter text-[32px] leading-[40px] tracking-[-0.01em] font-bold text-kp-primary tracking-tighter",
+              onBack && "cursor-pointer hover:opacity-85 transition-opacity"
+            )}
+          >
+            KinetiPass
+          </div>
         </div>
         {/* Trailing Actions */}
         <div className="flex items-center gap-2">
-          <button className="text-kp-primary hover:bg-white/10 transition-colors p-2 rounded-full active:scale-95 duration-150 flex items-center justify-center">
+          <button
+            onClick={() => toast.info(`Timer: ${formatTime(timeLeft)} remaining. Please write at least 1500 words.`)}
+            className="text-kp-primary hover:bg-white/10 transition-colors p-2 rounded-full active:scale-95 duration-150 flex items-center justify-center"
+          >
             <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 0" }}>timer</span>
           </button>
-          <button className="text-kp-primary hover:bg-white/10 transition-colors p-2 rounded-full active:scale-95 duration-150 flex items-center justify-center">
+          <button
+            onClick={() => toast.success(isAlert ? "Biometric Shield is showing CRITICAL lockdown state." : "Biometric Shield is fully active and tracking typing rhythm.")}
+            className="text-kp-primary hover:bg-white/10 transition-colors p-2 rounded-full active:scale-95 duration-150 flex items-center justify-center"
+          >
             <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>security</span>
           </button>
-          <button className="text-kp-primary hover:bg-white/10 transition-colors p-2 rounded-full active:scale-95 duration-150 flex items-center justify-center">
+          <button
+            onClick={() => toast("Biometric Settings", {
+              description: "Sensitivity set to 95%. Rhythm Match threshold at 75%."
+            })}
+            className="text-kp-primary hover:bg-white/10 transition-colors p-2 rounded-full active:scale-95 duration-150 flex items-center justify-center"
+          >
             <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 0" }}>settings</span>
           </button>
-          <div className="ml-4 h-8 w-8 rounded-full bg-kp-surface-variant overflow-hidden border border-white/20">
+          <button
+            onClick={() => toast.info("Candidate Profile", {
+              description: "Name: Harrison | ID: KP-4902 | Status: " + (isAlert ? "FLAGGED" : "VERIFIED")
+            })}
+            className="ml-4 h-8 w-8 rounded-full bg-kp-surface-variant overflow-hidden border border-white/20 active:scale-95 transition-transform"
+          >
             <img
               alt="Candidate Avatar"
               className="w-full h-full object-cover"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCkVl5XrhI7LQJF7Snwt8cUiJsMTQ61NIr3ARz3AmsXCaiPImprwqN4Vlg5t2nPXDGmqerR7--IC0HZCbasMpca8UDFNbiAUDM0kt_PM682rBROGgcvgEgFyCdZf9Ni3n22mS4Ee37mIjZJ1feKzMVBJJ3vKsPKpQeQwryBugkL8MFd4Rp4JWZyKgjuhWBmlBpHGxQtHRBxDjKzP3L3uMBFYdpTFNMz9Vl6ag0lF8i1IGletqmbOW_M4iywv4DsaSW4cqSYV1R62RH"
             />
-          </div>
+          </button>
         </div>
       </nav>
 
@@ -180,20 +214,55 @@ export function ExamPage() {
           <div className="bg-kp-surface-container/20 backdrop-blur-xl border border-white/10 rounded-xl flex flex-col flex-1 shadow-lg overflow-hidden">
             {/* Editor Toolbar */}
             <div className="bg-kp-surface-container-low border-b border-white/10 p-3 flex gap-2 overflow-x-auto">
-              <button className="p-2 text-kp-on-surface-variant hover:text-kp-on-surface hover:bg-white/5 rounded transition-colors">
+              <button
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => {
+                  document.execCommand('bold')
+                  toast.success("Text formatted: Bold")
+                }}
+                className="p-2 text-kp-on-surface-variant hover:text-kp-on-surface hover:bg-white/5 rounded transition-colors"
+              >
                 <span className="material-symbols-outlined text-sm">format_bold</span>
               </button>
-              <button className="p-2 text-kp-on-surface-variant hover:text-kp-on-surface hover:bg-white/5 rounded transition-colors">
+              <button
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => {
+                  document.execCommand('italic')
+                  toast.success("Text formatted: Italic")
+                }}
+                className="p-2 text-kp-on-surface-variant hover:text-kp-on-surface hover:bg-white/5 rounded transition-colors"
+              >
                 <span className="material-symbols-outlined text-sm">format_italic</span>
               </button>
-              <button className="p-2 text-kp-on-surface-variant hover:text-kp-on-surface hover:bg-white/5 rounded transition-colors">
+              <button
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => {
+                  document.execCommand('underline')
+                  toast.success("Text formatted: Underline")
+                }}
+                className="p-2 text-kp-on-surface-variant hover:text-kp-on-surface hover:bg-white/5 rounded transition-colors"
+              >
                 <span className="material-symbols-outlined text-sm">format_underlined</span>
               </button>
               <div className="w-px h-6 bg-white/10 mx-2 self-center"></div>
-              <button className="p-2 text-kp-on-surface-variant hover:text-kp-on-surface hover:bg-white/5 rounded transition-colors">
+              <button
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => {
+                  document.execCommand('insertUnorderedList')
+                  toast.success("Unordered list inserted")
+                }}
+                className="p-2 text-kp-on-surface-variant hover:text-kp-on-surface hover:bg-white/5 rounded transition-colors"
+              >
                 <span className="material-symbols-outlined text-sm">format_list_bulleted</span>
               </button>
-              <button className="p-2 text-kp-on-surface-variant hover:text-kp-on-surface hover:bg-white/5 rounded transition-colors">
+              <button
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => {
+                  document.execCommand('insertOrderedList')
+                  toast.success("Ordered list inserted")
+                }}
+                className="p-2 text-kp-on-surface-variant hover:text-kp-on-surface hover:bg-white/5 rounded transition-colors"
+              >
                 <span className="material-symbols-outlined text-sm">format_list_numbered</span>
               </button>
             </div>

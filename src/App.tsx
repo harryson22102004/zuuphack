@@ -8,6 +8,7 @@ import { LandingPage } from "@/pages/landing-page"
 import { ExamPage } from "@/pages/exam-page"
 import { AdminPage } from "@/pages/admin-page"
 import { Fingerprint, BookOpen, BarChart3, Home } from "lucide-react"
+import { Toaster } from "@/components/ui/sonner"
 
 type Tab = "home" | "exam" | "admin"
 
@@ -22,6 +23,7 @@ export function App() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <Toaster />
       {/* Top Navigation */}
       <header className="fixed top-0 left-0 right-0 z-40 border-b border-border/40 bg-background/95 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4">
@@ -97,7 +99,7 @@ export function App() {
             onNavigateToAdmin={() => setActiveTab("admin")}
           />
         )}
-        {activeTab === "exam" && <ExamPage />}
+        {activeTab === "exam" && <ExamPage onBack={() => setActiveTab("home")} />}
         {activeTab === "admin" && <AdminPage />}
       </main>
 
@@ -115,7 +117,7 @@ export function App() {
                 <span className="text-xs text-muted-foreground">Zero-Invasion AI Proctoring</span>
               </div>
               <p className="text-xs text-muted-foreground">
-                Built for Hackathon 2025 — Privacy-first academic integrity
+                Built for modern education — Privacy-first academic integrity
               </p>
             </div>
           </div>
