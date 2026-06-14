@@ -173,3 +173,115 @@
   90% { opacity: 1; }
   100% { transform: translateY(100vh); opacity: 0; }
 }
+
+/* ===== KinetiPass Exam Simulator Design Tokens ===== */
+
+@theme inline {
+  /* Material Design 3 color palette for the proctoring view */
+  --color-kp-surface-container: #171f33;
+  --color-kp-background: #0b1326;
+  --color-kp-surface: #0b1326;
+  --color-kp-surface-dim: #0b1326;
+  --color-kp-surface-container-lowest: #060e20;
+  --color-kp-surface-container-low: #131b2e;
+  --color-kp-surface-container-high: #222a3d;
+  --color-kp-surface-container-highest: #2d3449;
+  --color-kp-surface-variant: #2d3449;
+  --color-kp-surface-bright: #31394d;
+  --color-kp-surface-tint: #adc6ff;
+
+  --color-kp-primary: #adc6ff;
+  --color-kp-primary-container: #4d8eff;
+  --color-kp-primary-fixed: #d8e2ff;
+  --color-kp-primary-fixed-dim: #adc6ff;
+  --color-kp-on-primary: #002e6a;
+  --color-kp-on-primary-container: #00285d;
+  --color-kp-on-primary-fixed: #001a42;
+  --color-kp-on-primary-fixed-variant: #004395;
+  --color-kp-inverse-primary: #005ac2;
+
+  --color-kp-secondary: #4edea3;
+  --color-kp-secondary-container: #00a572;
+  --color-kp-secondary-fixed: #6ffbbe;
+  --color-kp-secondary-fixed-dim: #4edea3;
+  --color-kp-on-secondary: #003824;
+  --color-kp-on-secondary-container: #00311f;
+  --color-kp-on-secondary-fixed: #002113;
+  --color-kp-on-secondary-fixed-variant: #005236;
+
+  --color-kp-tertiary: #ffb3ad;
+  --color-kp-tertiary-container: #ff5451;
+  --color-kp-tertiary-fixed: #ffdad7;
+  --color-kp-tertiary-fixed-dim: #ffb3ad;
+  --color-kp-on-tertiary: #68000a;
+  --color-kp-on-tertiary-container: #5c0008;
+  --color-kp-on-tertiary-fixed: #410004;
+  --color-kp-on-tertiary-fixed-variant: #930013;
+
+  --color-kp-error: #ffb4ab;
+  --color-kp-error-container: #93000a;
+  --color-kp-on-error: #690005;
+  --color-kp-on-error-container: #ffdad6;
+
+  --color-kp-on-surface: #dae2fd;
+  --color-kp-on-surface-variant: #c2c6d6;
+  --color-kp-on-background: #dae2fd;
+  --color-kp-outline: #8c909f;
+  --color-kp-outline-variant: #424754;
+  --color-kp-inverse-surface: #dae2fd;
+  --color-kp-inverse-on-surface: #283044;
+
+  /* Spacing */
+  --spacing-kp-gutter: 24px;
+  --spacing-kp-margin-desktop: 40px;
+
+  /* Font families */
+  --font-kp-inter: 'Inter', sans-serif;
+  --font-kp-mono: 'JetBrains Mono', monospace;
+}
+
+/* KinetiPass keyframe animations */
+@keyframes kp-pulse-glow {
+  0%, 100% { box-shadow: 0 0 15px rgba(78, 222, 163, 0.3); }
+  50% { box-shadow: 0 0 25px rgba(78, 222, 163, 0.7); }
+}
+
+@keyframes kp-glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes kp-flash-bg {
+  0%, 100% { background-color: rgba(147, 0, 10, 0.1); }
+  50% { background-color: rgba(147, 0, 10, 0.3); }
+}
+
+.animate-kp-pulse-glow {
+  animation: kp-pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-kp-glitch {
+  animation: kp-glitch 0.2s linear infinite;
+}
+
+.animate-kp-flash-bg {
+  animation: kp-flash-bg 1s infinite;
+}
+
+/* KinetiPass custom scrollbar */
+.kp-scrollbar::-webkit-scrollbar { width: 8px; }
+.kp-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.kp-scrollbar::-webkit-scrollbar-thumb { background: #2d3449; border-radius: 4px; }
+.kp-scrollbar::-webkit-scrollbar-thumb:hover { background: #424754; }
+
+/* KinetiPass editor placeholder */
+.kp-editor-content:empty:before {
+  content: attr(data-placeholder);
+  color: #8c909f;
+  pointer-events: none;
+  display: block;
+}

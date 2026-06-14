@@ -115,13 +115,6 @@ export function LandingPage({ onNavigateToExam, onNavigateToAdmin }: LandingPage
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
 
         <div className="relative max-w-5xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyber-green/30 bg-cyber-green/10 mb-8">
-            <div className="w-2 h-2 rounded-full bg-cyber-green animate-glow-pulse" />
-            <span className="text-sm text-cyber-green font-medium tracking-wide">
-              Hackathon 2025 — Revolutionary AI Proctoring
-            </span>
-          </div>
-
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-balance mb-6">
             <span className="text-foreground">Kinet</span>
             <span className="text-cyber-green">i</span>

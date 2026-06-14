@@ -72,10 +72,6 @@ export function App() {
 
             {/* Right side */}
             <div className="flex items-center gap-2">
-              <div className="hidden md:flex items-center gap-1.5 px-3 py-1 rounded-full border border-cyber-green/20 bg-cyber-green/5">
-                <div className="w-1.5 h-1.5 rounded-full bg-cyber-green animate-glow-pulse" />
-                <span className="text-xs text-cyber-green">Hackathon 2025</span>
-              </div>
               <ModeToggle />
             </div>
           </div>
